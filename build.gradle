@@ -28,6 +28,14 @@ test {
 }
 
 dependencies {
+    implementation 'org.printscript:common'
+    implementation 'org.printscript:token'
+    implementation 'org.printscript:lexer'
+    implementation 'org.printscript:formatter'
+    implementation 'org.printscript:analyzer'
+    implementation 'org.printscript:parser'
+    implementation 'org.printscript:ast'
+
     testImplementation 'junit:junit:4.13.1'
 }
 

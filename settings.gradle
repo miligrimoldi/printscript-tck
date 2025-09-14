@@ -1,2 +1,13 @@
 rootProject.name = 'printscript-tck'
 
+includeBuild('C:/Users/milig/faculty/ingsis/PrintScriptV1') {
+    dependencySubstitution {
+        substitute(module('org.printscript:formatter')).using(project(':formatter'))
+        substitute(module('org.printscript:lexer')).using(project(':lexer'))
+        substitute(module('org.printscript:common')).using(project(':common'))
+        substitute(module('org.printscript:token')).using(project(':token'))
+        substitute(module('org.printscript:analyzer')).using(project(':analyzer'))
+        substitute(module('org.printscript:parser')).using(project(':parser'))
+        substitute(module('org.printscript:ast')).using(project(':ast'))
+    }
+}
