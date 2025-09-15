@@ -19,17 +19,19 @@ repositories {
 java {
     toolchain { languageVersion = JavaLanguageVersion.of(21) }
 }
+def psver = '1.0.0-SNAPSHOT'
 
 dependencies {
-    implementation "org.printscript:common:1.0.0-SNAPSHOT"
-    implementation "org.printscript:token:1.0.0-SNAPSHOT"
-    implementation "org.printscript:ast:1.0.0-SNAPSHOT"
-    implementation "org.printscript:lexer:1.0.0-SNAPSHOT"
-    implementation "org.printscript:parser:1.0.0-SNAPSHOT"
-    implementation "org.printscript:analyzer:1.0.0-SNAPSHOT"
-    implementation "org.printscript:formatter:1.0.0-SNAPSHOT"
-    implementation "org.printscript:interpreter:1.0.0-SNAPSHOT"
-    implementation "org.printscript:runner:1.0.0-SNAPSHOT"
+    implementation("org.printscript:runner:$psver") { changing = true }
+    implementation("org.printscript:common:$psver") { changing = true }
+    implementation("org.printscript:token:$psver") { changing = true }
+    implementation("org.printscript:ast:$psver") { changing = true }
+    implementation("org.printscript:lexer:$psver") { changing = true }
+    implementation("org.printscript:parser:$psver") { changing = true }
+    implementation("org.printscript:analyzer:$psver") { changing = true }
+    implementation("org.printscript:formatter:$psver") { changing = true }
+    implementation("org.printscript:interpreter:$psver") { changing = true }
+
     testImplementation 'junit:junit:4.13.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
@@ -39,6 +41,10 @@ test {
     useJUnit()
     minHeapSize = "5m"
     maxHeapSize = "7m"
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 
