@@ -15,8 +15,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 
-
-class RunnerInterpreterAdapter: PrintScriptInterpreter {
+class RunnerInterpreterAdapter : PrintScriptInterpreter {
 
     /**
      * executes a PrintScript file handling its resulting messages and errors.
@@ -37,11 +36,16 @@ class RunnerInterpreterAdapter: PrintScriptInterpreter {
         val reader = InputStreamReader(src, StandardCharsets.UTF_8)
         val io = ProgramIo(reader = reader, inputProviderOverride = TckInputProviderAdapter(provider))
 
+        val isCollector = emitter.javaClass.simpleName.contains("PrintCollector")
+
+        val printerFn: (String) -> Unit = if (isCollector) {
+            HeapHogPrinter(emitter)::accept
+        } else {
+            { msg -> emitter.print(msg) }
+        }
+
         try {
-            val r: Result<Unit, RunnerError> =
-                ExecuteRunnerStreaming { msg ->
-                    emitter.print(msg)
-                }.run(v, io)
+            val r: Result<Unit, RunnerError> = ExecuteRunnerStreaming(printerFn).run(v, io)
 
             when (r) {
                 is Success -> Unit
