@@ -35,6 +35,7 @@ dependencies {
     implementation 'org.printscript:analyzer'
     implementation 'org.printscript:parser'
     implementation 'org.printscript:ast'
+    implementation 'org.printscript:interpreter'
 
     testImplementation 'junit:junit:4.13.1'
 }
