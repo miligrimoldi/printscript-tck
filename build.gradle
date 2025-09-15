@@ -4,41 +4,32 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+    // mavenLocal()
     mavenCentral()
-// TODO: uncomment to be able to fetch packages in your own repository
-//    maven {
-//        name = "GitHubPackages"
-//        url = uri("https://maven.pkg.github.com/<your-username>/printscript")
-//        credentials {
-//            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//        }
-//    }
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/Ingenieria-en-sistemas-2025/PrintScriptV1")
+        credentials {
+            username = findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+            password = findProperty("gpr.key")  ?: System.getenv("GITHUB_TOKEN")
+        }
     }
 }
 
-test {
-    minHeapSize = "5m" // initial heap size
-    maxHeapSize = "7m" // maximum heap size
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(21) }
 }
 
 dependencies {
-    implementation 'org.printscript:common'
-    implementation 'org.printscript:token'
-    implementation 'org.printscript:lexer'
-    implementation 'org.printscript:formatter'
-    implementation 'org.printscript:analyzer'
-    implementation 'org.printscript:parser'
-    implementation 'org.printscript:ast'
-    implementation 'org.printscript:interpreter'
-    implementation 'org.printscript:runner'
-
+    implementation "org.printscript:common:1.0.0-SNAPSHOT"
+    implementation "org.printscript:token:1.0.0-SNAPSHOT"
+    implementation "org.printscript:ast:1.0.0-SNAPSHOT"
+    implementation "org.printscript:lexer:1.0.0-SNAPSHOT"
+    implementation "org.printscript:parser:1.0.0-SNAPSHOT"
+    implementation "org.printscript:analyzer:1.0.0-SNAPSHOT"
+    implementation "org.printscript:formatter:1.0.0-SNAPSHOT"
+    implementation "org.printscript:interpreter:1.0.0-SNAPSHOT"
+    implementation "org.printscript:runner:1.0.0-SNAPSHOT"
     testImplementation 'junit:junit:4.13.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
@@ -46,4 +37,6 @@ dependencies {
 test {
     environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
     useJUnit()
+    minHeapSize = "5m"
+    maxHeapSize = "7m"
 }

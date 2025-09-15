@@ -9,18 +9,18 @@ import java.util.Arrays;
 
 public class CustomImplementationFactory implements PrintScriptFactory {
 
-  @Override
-  public PrintScriptInterpreter interpreter() {
-    return new RunnerInterpreterAdapter();
-  }
+    @Override
+    public PrintScriptInterpreter interpreter() {
+        return new RunnerInterpreterAdapter();
+    }
 
-  @Override
-  public PrintScriptFormatter formatter() {
-    return new RunnerFormatterAdapter();
-  }
+    @Override
+    public PrintScriptFormatter formatter() {
+        return new RunnerFormatterAdapter();
+    }
 
-  @Override
-  public PrintScriptLinter linter() {
-   return new RunnerLinterAdapter();
-  }
+    @Override
+    public PrintScriptLinter linter() {
+        return new RunnerLinterAdapter();
+    }
 }
