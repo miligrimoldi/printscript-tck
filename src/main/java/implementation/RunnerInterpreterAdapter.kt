@@ -38,15 +38,11 @@ class RunnerInterpreterAdapter : PrintScriptInterpreter {
 
         val isCollector = emitter.javaClass.simpleName.contains("PrintCollector")
 
-        val printerFn: (String) -> Unit = if (isCollector) {
-            HeapHogPrinter(emitter)::accept
-        } else {
-            { msg -> emitter.print(msg) }
-        }
+
+        val printerFn: (String) -> Unit = { msg -> emitter.print(msg) }
 
         try {
             val r: Result<Unit, RunnerError> = ExecuteRunnerStreaming(printerFn).run(v, io)
-
             when (r) {
                 is Success -> Unit
                 is Failure -> handler.reportError("[${r.error.stage::class.simpleName}] ${r.error.message}")
