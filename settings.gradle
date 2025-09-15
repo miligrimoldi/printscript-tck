@@ -1,6 +1,6 @@
 rootProject.name = 'printscript-tck'
 
-includeBuild('/Users/pilarsilveyra/faculty/ingenieria/PrintScriptV1') {
+includeBuild('/Users/catalinapereyra/PrintScriptV1copy') {
     dependencySubstitution {
         substitute(module('org.printscript:formatter')).using(project(':formatter'))
         substitute(module('org.printscript:lexer')).using(project(':lexer'))
@@ -10,5 +10,6 @@ includeBuild('/Users/pilarsilveyra/faculty/ingenieria/PrintScriptV1') {
         substitute(module('org.printscript:parser')).using(project(':parser'))
         substitute(module('org.printscript:ast')).using(project(':ast'))
         substitute(module('org.printscript:interpreter')).using(project(':interpreter'))
+        substitute(module('org.printscript:runner')).using(project(':runner'))
     }
 }
