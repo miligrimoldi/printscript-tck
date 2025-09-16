@@ -10,7 +10,6 @@ import org.printscript.formatter.factories.GlobalFormatterFactory
 import org.printscript.lexer.config.LexerFactory
 import org.printscript.runner.ProgramIo
 import org.printscript.runner.RunnerError
-import org.printscript.runner.runners.FormatRunnerWithOptions
 import org.printscript.token.TokenStream
 import java.io.InputStream
 import java.io.InputStreamReader
