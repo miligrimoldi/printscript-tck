@@ -37,14 +37,15 @@ dependencies {
 }
 
 test {
+    minHeapSize = "8m"
+    maxHeapSize = "8m"
+
     environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
+
+    // Run tests sequentially
+    systemProperty 'junit.jupiter.execution.parallel.enabled', 'false'
+
     useJUnit()
 }
-
-test {
-    minHeapSize = "5m"
-    maxHeapSize = "7m"
-}
-
 
 

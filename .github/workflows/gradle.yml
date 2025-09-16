@@ -20,8 +20,13 @@ jobs:
         run: chmod +x gradlew
       - name: Gradle Clean
         run: ./gradlew clean
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Assemble with Gradle
+        run: ./gradlew assemble
+        env:
+          USERNAME: <your-username>
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test with Gradle
+        run: ./gradlew test
         env:
           USERNAME: <your-username>
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
