@@ -13,35 +13,37 @@ import java.io.InputStreamReader
 import java.io.Writer
 import java.nio.charset.StandardCharsets
 
-class RunnerFormatterAdapter: PrintScriptFormatter {
+class RunnerFormatterAdapter : PrintScriptFormatter {
+
     /**
-     * executes a PrintScript file handling its resulting messages and errors.
-     * @param src Source file.
-     * @param version PrintScript version, 1.0 and 1.1 must be supported.
-     * @param config config file (JSON).
-     * @param writer Writer, where the formatted output should be written
+     * Formatea un programa PrintScript y escribe el resultado en [writer].
+     * - [src]: código fuente como InputStream (se cierra acá).
+     * - [version]: "1.0" | "1.1" (mapeado con VersionMapper).
+     * - [config]: JSON de configuración del formatter (puede ser null; no se cierra acá).
+     * - [writer]: destino (NO se cierra, solo se escribe/flush).
      */
-    override fun format(src: InputStream, version: String, config: InputStream, writer: Writer) {
+    override fun format(src: InputStream, version: String, config: InputStream?, writer: Writer) {
         val v: Version = VersionMapper.fromTck(version)
-        val reader = InputStreamReader(src, StandardCharsets.UTF_8)
-        val io = ProgramIo(reader = reader)
 
-        val options = FormatterOptionsLoader.fromStream(config)
+        InputStreamReader(src, StandardCharsets.UTF_8).use { reader ->
+            val io = ProgramIo(reader = reader)
 
-        val r: Result<String, RunnerError> = FormatRunnerWithOptions(options).run(v, io)
-        when (r) {
-            is Success -> {
-                try {
-                    writer.write(r.value)
+            val options = FormatterOptionsLoader.fromStream(config)
+
+            val result: Result<String, RunnerError> =
+                FormatRunnerWithOptions(options).run(v, io)
+
+            when (result) {
+                is Success -> {
+                    writer.write(result.value)
                     writer.flush()
-                } catch (_: java.io.IOException) {
                 }
-            }
-            is Failure -> {
-                val e = r.error
-                throw RuntimeException("Formatter failed at ${e.stage::class.simpleName}: ${e.message}")
+                is Failure -> {
+                    val e = result.error
+                    val msg = "Formatter failed at ${e.stage}: ${e.message}"
+                    throw RuntimeException(msg, e.cause as? Throwable)
+                }
             }
         }
     }
 }
-//cambios
