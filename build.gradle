@@ -39,6 +39,9 @@ dependencies {
 test {
     environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
     useJUnit()
+}
+
+test {
     minHeapSize = "5m"
     maxHeapSize = "7m"
 }
