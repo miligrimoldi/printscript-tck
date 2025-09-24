@@ -4,9 +4,6 @@ import interpreter.PrintScriptFormatter;
 import interpreter.PrintScriptInterpreter;
 import interpreter.PrintScriptLinter;
 
-import java.io.BufferedInputStream;
-import java.util.Arrays;
-
 public class CustomImplementationFactory implements PrintScriptFactory {
 
     @Override

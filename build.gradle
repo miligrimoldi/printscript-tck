@@ -19,7 +19,7 @@ repositories {
 java {
     toolchain { languageVersion = JavaLanguageVersion.of(21) }
 }
-def psver = '1.0.1'
+def psver = '1.0.9'
 
 dependencies {
     implementation("org.printscript:runner:$psver")
@@ -37,8 +37,11 @@ dependencies {
 }
 
 test {
-    minHeapSize = "8m"
+    minHeapSize = "6m"
     maxHeapSize = "8m"
+
+    forkEvery = 1
+    maxParallelForks = 1
 
     environment "BEST_FOOTBALL_CLUB", "San Lorenzo"
 

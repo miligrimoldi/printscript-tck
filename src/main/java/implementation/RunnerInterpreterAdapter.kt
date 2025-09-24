@@ -5,15 +5,15 @@ import interpreter.InputProvider
 import interpreter.PrintEmitter
 import interpreter.PrintScriptInterpreter
 import org.printscript.common.Failure
-import org.printscript.common.Result
 import org.printscript.common.Success
-import org.printscript.common.Version
 import org.printscript.runner.ProgramIo
-import org.printscript.runner.RunnerError
+import org.printscript.runner.helpers.VersionMapper
 import org.printscript.runner.runners.ExecuteRunnerStreaming
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
+import org.printscript.common.Version
+import org.printscript.runner.runners.Runner
 
 
 class RunnerInterpreterAdapter: PrintScriptInterpreter {
@@ -24,7 +24,7 @@ class RunnerInterpreterAdapter: PrintScriptInterpreter {
         handler: ErrorHandler,
         provider: InputProvider
     ) {
-        val v = VersionMapper.fromTck(version)
+        val v: Version = VersionMapper.parse(version)
         val io = ProgramIo(
             reader = InputStreamReader(src, StandardCharsets.UTF_8),
             inputProviderOverride = TckInputProviderAdapter(provider)
@@ -35,11 +35,7 @@ class RunnerInterpreterAdapter: PrintScriptInterpreter {
         val printer: ((String) -> Unit) = { msg -> emitter.print(msg) }
 
         try {
-            val r = ExecuteRunnerStreaming(
-                printer = printer,
-                collectAlsoWithPrinter = isCollector
-            ).run(v, io)
-
+            val r = Runner.execute(v, io, printer = printer, collect = isCollector)
             when (r) {
                 is Success -> Unit
                 is Failure -> handler.reportError("[${r.error.stage::class.simpleName}] ${r.error.message}")
